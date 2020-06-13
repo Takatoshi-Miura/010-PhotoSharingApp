@@ -73,7 +73,7 @@
         <!--投稿-->
         <scene sceneID="iR3-Mp-2NF">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="tg4-KX-6ey" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="tg4-KX-6ey" customClass="ImageSelectViewController" customModule="_10_PhotoSharingApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zza-UK-EPE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -85,6 +85,9 @@
                                 <state key="normal" title="ライブラリ">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="handleLibraryButton:" destination="tg4-KX-6ey" eventType="touchUpInside" id="G6w-Vx-5QB"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kre-RA-HtK">
                                 <rect key="frame" x="50" y="240" width="315" height="50"/>
@@ -93,6 +96,9 @@
                                 <state key="normal" title="キャンセル">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="handleCancelButton:" destination="tg4-KX-6ey" eventType="touchUpInside" id="sbO-89-fFY"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X4b-S2-wDE">
                                 <rect key="frame" x="50" y="182" width="315" height="50"/>
@@ -101,6 +107,9 @@
                                 <state key="normal" title="カメラ">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="handleCamaraButton:" destination="tg4-KX-6ey" eventType="touchUpInside" id="6ip-sW-tXm"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -108,23 +117,23 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="投稿" selectedImage="camera" catalog="system" id="f8q-eQ-k3L"/>
                     <connections>
-                        <segue destination="d72-Be-brn" kind="custom" identifier="goPostViewController" id="mIy-PD-eNO"/>
+                        <segue destination="d72-Be-brn" kind="show" identifier="goPostViewController" id="mIy-PD-eNO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ka4-XF-Nif" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="138" y="1608"/>
         </scene>
-        <!--View Controller-->
+        <!--Post View Controller-->
         <scene sceneID="sNw-bq-drl">
             <objects>
-                <viewController id="d72-Be-brn" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="d72-Be-brn" customClass="PostViewController" customModule="_10_PhotoSharingApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lpc-fM-3Nk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LWz-h3-vih">
-                                <rect key="frame" x="20" y="44" width="374" height="286"/>
+                                <rect key="frame" x="49" y="44" width="317" height="286"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2jK-hL-63O">
@@ -140,6 +149,9 @@
                                 <state key="normal" title="投稿">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="postButton:" destination="d72-Be-brn" eventType="touchUpInside" id="kXL-5L-lCv"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="052-Kq-YtJ">
                                 <rect key="frame" x="51" y="450" width="315" height="50"/>
@@ -148,13 +160,23 @@
                                 <state key="normal" title="キャンセル">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="cancelButton:" destination="d72-Be-brn" eventType="touchUpInside" id="hnJ-1n-CY2"/>
+                                    <segue destination="Z9A-ZH-Qtz" kind="unwind" unwindAction="goToImageSelectWith_segue:" id="RbK-SV-1Cl"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="dY1-SK-Om2"/>
                     </view>
+                    <navigationItem key="navigationItem" id="rro-nf-JPQ"/>
+                    <connections>
+                        <outlet property="postImage" destination="LWz-h3-vih" id="mrP-1t-Mb7"/>
+                        <outlet property="postTextField" destination="2jK-hL-63O" id="JFb-wS-JZb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pva-2n-X7E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="Z9A-ZH-Qtz" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="2337.7232142857142"/>
         </scene>
