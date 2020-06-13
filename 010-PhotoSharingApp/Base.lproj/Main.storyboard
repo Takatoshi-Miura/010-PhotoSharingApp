@@ -40,6 +40,9 @@
                                 <state key="normal" title="ログイン">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iv9-oe-7Gh"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vbn-m5-79j">
                                 <rect key="frame" x="51" y="295" width="315" height="50"/>
@@ -48,11 +51,20 @@
                                 <state key="normal" title="アカウント作成">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="createAccountButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yfC-Qr-HGS"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="textFieldAccountName" destination="qMh-iz-fYj" id="kFR-7o-2HC"/>
+                        <outlet property="textFieldMailAddress" destination="i4P-XZ-d0y" id="VjZ-gd-RuV"/>
+                        <outlet property="textFieldPassword" destination="SYB-6V-7sH" id="Ivj-2r-cLK"/>
+                        <segue destination="UAw-D2-PYr" kind="custom" identifier="goTabBarController" id="f3m-up-QuO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
