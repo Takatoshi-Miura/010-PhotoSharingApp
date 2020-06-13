@@ -21,6 +21,7 @@
 		8DB6E9F7249512580097C2AD /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB6E9F6249512580097C2AD /* SettingViewController.swift */; };
 		8DB6E9F9249516130097C2AD /* ImageSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB6E9F8249516130097C2AD /* ImageSelectViewController.swift */; };
 		8DB6E9FB249518120097C2AD /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB6E9FA249518120097C2AD /* PostViewController.swift */; };
+		8DB6E9FD24951F900097C2AD /* PostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB6E9FC24951F900097C2AD /* PostData.swift */; };
 		BC74FA22EE969604D04E454B /* Pods_010_PhotoSharingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4A6E939E19C5C64CB73E6 /* Pods_010_PhotoSharingApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,7 @@
 		8DB6E9F6249512580097C2AD /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		8DB6E9F8249516130097C2AD /* ImageSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectViewController.swift; sourceTree = "<group>"; };
 		8DB6E9FA249518120097C2AD /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		8DB6E9FC24951F900097C2AD /* PostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
 		947F8AEDD7D44A4FA04538C7 /* Pods-010-PhotoSharingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-010-PhotoSharingApp.release.xcconfig"; path = "Target Support Files/Pods-010-PhotoSharingApp/Pods-010-PhotoSharingApp.release.xcconfig"; sourceTree = "<group>"; };
 		9FE4A6E939E19C5C64CB73E6 /* Pods_010_PhotoSharingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_010_PhotoSharingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -107,6 +109,7 @@
 				8DB6E9F4249510120097C2AD /* HomeViewController.swift */,
 				8DB6E9F8249516130097C2AD /* ImageSelectViewController.swift */,
 				8DB6E9FA249518120097C2AD /* PostViewController.swift */,
+				8DB6E9FC24951F900097C2AD /* PostData.swift */,
 				8DB6E9F6249512580097C2AD /* SettingViewController.swift */,
 				8DB6E9DF2494FBDD0097C2AD /* Assets.xcassets */,
 				8DB6E9E12494FBDD0097C2AD /* LaunchScreen.storyboard */,
@@ -239,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DB6E9FB249518120097C2AD /* PostViewController.swift in Sources */,
+				8DB6E9FD24951F900097C2AD /* PostData.swift in Sources */,
 				8DB6E9F9249516130097C2AD /* ImageSelectViewController.swift in Sources */,
 				8DB6E9F5249510120097C2AD /* HomeViewController.swift in Sources */,
 				8DB6E9DB2494FBDB0097C2AD /* LoginViewController.swift in Sources */,
