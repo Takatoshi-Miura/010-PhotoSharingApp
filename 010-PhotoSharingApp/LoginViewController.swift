@@ -101,11 +101,13 @@ class LoginViewController: UIViewController {
         }
     }
     
-    
-    
-    
-    
-    
+    // ログイン画面に戻ってくるときに呼び出される処理
+    @IBAction func goToLogin(_segue:UIStoryboardSegue){
+        // テキストフィールドをクリア
+        textFieldMailAddress.text = ""
+        textFieldPassword.text    = ""
+        textFieldAccountName.text = ""
+    }
 
 }
 
