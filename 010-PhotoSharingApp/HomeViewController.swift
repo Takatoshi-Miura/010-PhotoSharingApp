@@ -44,7 +44,7 @@ class HomeViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         // 投稿データの取得
         let databasePostData = PostData()
-        databasePostData.readDatabase()
+        databasePostData.loadDatabase()
         
         // 取得した投稿の数だけPostDataを作成
         // データの取得が終わるまで時間待ち
@@ -54,10 +54,10 @@ class HomeViewController: UITableViewController {
                 self.postDataArray.append(databasePostData)
                 print("postDataArrayにデータを追加しました")
                 print("postDataArrayの要素数：\(self.postDataArray.count)")
-                self.postTableView.insertRows(at: [IndexPath(row:0,section:0)],with: UITableView.RowAnimation.right)
             }
+            self.postTableView.insertRows(at: [IndexPath(row:0,section:0)],with: UITableView.RowAnimation.right)
         }
-                    
+        
     }
     
     
@@ -77,9 +77,16 @@ class HomeViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //Storyboardで指定した識別子を利用して再利用可能なセルを取得する
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
-        cell.printPostData(postDataArray[indexPath.row].postImage, postDataArray[indexPath.row].postComment, postDataArray[indexPath.row].postTime)
-        print("実行しました")
+        cell.printPostData(postDataArray[indexPath.row].postImage,
+                           postDataArray[indexPath.row].accountName,
+                           postDataArray[indexPath.row].postComment,
+                           postDataArray[indexPath.row].postTime)
         return cell
+    }
+    
+    // セルの高さ設定
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 450
     }
     
     

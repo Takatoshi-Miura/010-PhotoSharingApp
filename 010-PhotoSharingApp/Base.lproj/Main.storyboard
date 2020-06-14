@@ -115,7 +115,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="T5u-ez-zJK"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="投稿" selectedImage="camera" catalog="system" id="f8q-eQ-k3L"/>
+                    <tabBarItem key="tabBarItem" title="投稿" image="camera" catalog="system" selectedImage="camera" id="f8q-eQ-k3L"/>
                     <connections>
                         <segue destination="d72-Be-brn" kind="show" identifier="goPostViewController" id="mIy-PD-eNO"/>
                     </connections>
@@ -145,7 +145,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbm-qj-523">
                                 <rect key="frame" x="49" y="392" width="315" height="50"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.95857137439999995" green="0.67352682350000004" blue="0.47054415939999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" title="投稿">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -222,7 +222,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="sOc-Qp-q3S"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="設定" selectedImage="gear" catalog="system" id="djp-Ck-cXq"/>
+                    <tabBarItem key="tabBarItem" title="設定" image="gear" catalog="system" selectedImage="gear" id="djp-Ck-cXq"/>
                     <connections>
                         <outlet property="textFieldAccountName" destination="ZzU-lW-K33" id="TDA-BU-m6q"/>
                     </connections>
@@ -245,7 +245,7 @@
                             <outlet property="delegate" destination="6LE-ml-COj" id="q63-jJ-mv8"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="ホーム" selectedImage="house" catalog="system" id="W3m-Uu-P3q"/>
+                    <tabBarItem key="tabBarItem" title="ホーム" image="house" catalog="system" selectedImage="house" id="W3m-Uu-P3q"/>
                     <connections>
                         <outlet property="postTableView" destination="HCd-df-59l" id="iha-pF-ooe"/>
                     </connections>

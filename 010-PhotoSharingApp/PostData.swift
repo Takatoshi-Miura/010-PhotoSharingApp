@@ -9,6 +9,14 @@
 //  投稿内容をまとめたクラス。
 //  投稿する際にはこのクラスのオブジェクトを生成する。
 //
+//  ＜機能＞
+//  投稿データ作成機能
+//      イニシャライザに投稿したい画像とコメントを渡すことで、投稿データを作成できる。
+//  投稿機能
+//      画像はStorageに、その他の投稿データはCloudFire Storeに投稿できる。
+//  投稿データ取得機能
+//      Firebaseにアクセスし、投稿したデータを取得できる。
+//
 
 import UIKit
 import Firebase
@@ -18,10 +26,26 @@ import SVProgressHUD
 
 class PostData {
     
+    // 新規投稿データ用
+    static var postCount:Int = 0   // 投稿数
+    var postID:Int = 0             // 投稿ID
+    var accountName:String = ""    // 投稿者のアカウント名
+    var postComment:String = ""    // 投稿コメント
+    var postTime:String = ""       // 投稿日時
+    var postImage:UIImage = UIImage(systemName: "questionmark")!    // 投稿画像
+    
+    // データベースの投稿データ格納用
+    var postIDArray:[Int] = []
+    var accountNameArray:[String] = []
+    var postCommentArray:[String] = []
+    var postTimeArray:[String] = []
+    var postImageArray:[UIImage] = []
+
+    
+    // データベースの投稿取得用イニシャライザ
     init() {
     }
-    
-    
+     
     // 投稿を新規作成するときのイニシャライザ
     init(_ postImage:UIImage,_ postComment:String) {
         // 投稿IDのセット
@@ -43,24 +67,8 @@ class PostData {
     }
     
     
-    // 新規投稿データ用
-    static var postCount:Int = 0   // 投稿数
-    var postID:Int = 0             // 投稿ID
-    var accountName:String = ""    // 投稿者のアカウント名
-    var postComment:String = ""    // 投稿コメント
-    var postTime:String = ""       // 投稿日時
-    var postImage:UIImage = UIImage(systemName: "questionmark")!    // 投稿画像
-    
-    // データベースの投稿データ格納用
-    var postIDArray:[Int] = []
-    var accountNameArray:[String] = []
-    var postCommentArray:[String] = []
-    var postTimeArray:[String] = []
-    var postImageArray:[UIImage] = []
-
-    
     // データベースの投稿を取得するメソッド
-    func readDatabase() {
+    func loadDatabase() {
         // データベースのデータ格納用
         var postImage:UIImageView! = UIImageView()
         var postDataCollection = [String:Any]()
@@ -96,6 +104,9 @@ class PostData {
                         self.postTimeArray.append(postDataCollection["PostTime"] as! String)
                         self.postImageArray.append(postImage.image ?? UIImage(systemName: "questionmark")!)
                         print(self.postIDArray)
+                        if self.postID > PostData.postCount {
+                            PostData.postCount = self.postID
+                        }
                     } else {
                         print("重複してます。")
                     }
