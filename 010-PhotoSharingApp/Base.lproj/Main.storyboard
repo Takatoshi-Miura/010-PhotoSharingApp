@@ -246,6 +246,9 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="ホーム" selectedImage="house" catalog="system" id="W3m-Uu-P3q"/>
+                    <connections>
+                        <outlet property="postTableView" destination="HCd-df-59l" id="iha-pF-ooe"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2A3-CY-fMX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

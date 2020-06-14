@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8DA858CD24959A6600AD0467 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA858CB24959A6600AD0467 /* PostTableViewCell.swift */; };
+		8DA858CE24959A6600AD0467 /* PostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DA858CC24959A6600AD0467 /* PostTableViewCell.xib */; };
 		8DB6E9D72494FBDB0097C2AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB6E9D62494FBDB0097C2AD /* AppDelegate.swift */; };
 		8DB6E9D92494FBDB0097C2AD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB6E9D82494FBDB0097C2AD /* SceneDelegate.swift */; };
 		8DB6E9DB2494FBDB0097C2AD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB6E9DA2494FBDB0097C2AD /* LoginViewController.swift */; };
@@ -27,6 +29,8 @@
 
 /* Begin PBXFileReference section */
 		0A6BF8FD7369D5B78A9CCAC9 /* Pods-010-PhotoSharingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-010-PhotoSharingApp.debug.xcconfig"; path = "Target Support Files/Pods-010-PhotoSharingApp/Pods-010-PhotoSharingApp.debug.xcconfig"; sourceTree = "<group>"; };
+		8DA858CB24959A6600AD0467 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		8DA858CC24959A6600AD0467 /* PostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostTableViewCell.xib; sourceTree = "<group>"; };
 		8DB6E9D32494FBDB0097C2AD /* 010-PhotoSharingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "010-PhotoSharingApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DB6E9D62494FBDB0097C2AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8DB6E9D82494FBDB0097C2AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +114,8 @@
 				8DB6E9F8249516130097C2AD /* ImageSelectViewController.swift */,
 				8DB6E9FA249518120097C2AD /* PostViewController.swift */,
 				8DB6E9FC24951F900097C2AD /* PostData.swift */,
+				8DA858CB24959A6600AD0467 /* PostTableViewCell.swift */,
+				8DA858CC24959A6600AD0467 /* PostTableViewCell.xib */,
 				8DB6E9F6249512580097C2AD /* SettingViewController.swift */,
 				8DB6E9DF2494FBDD0097C2AD /* Assets.xcassets */,
 				8DB6E9E12494FBDD0097C2AD /* LaunchScreen.storyboard */,
@@ -187,6 +193,7 @@
 				8DB6E9F02494FF0F0097C2AD /* SVProgressHUD.bundle in Resources */,
 				8DB6E9E32494FBDD0097C2AD /* LaunchScreen.storyboard in Resources */,
 				8DB6E9EB2494FCCB0097C2AD /* GoogleService-Info.plist in Resources */,
+				8DA858CE24959A6600AD0467 /* PostTableViewCell.xib in Resources */,
 				8DB6E9E02494FBDD0097C2AD /* Assets.xcassets in Resources */,
 				8DB6E9DE2494FBDB0097C2AD /* Main.storyboard in Resources */,
 			);
@@ -248,6 +255,7 @@
 				8DB6E9DB2494FBDB0097C2AD /* LoginViewController.swift in Sources */,
 				8DB6E9F12494FF0F0097C2AD /* SVProgressHUD.m in Sources */,
 				8DB6E9D72494FBDB0097C2AD /* AppDelegate.swift in Sources */,
+				8DA858CD24959A6600AD0467 /* PostTableViewCell.swift in Sources */,
 				8DB6E9D92494FBDB0097C2AD /* SceneDelegate.swift in Sources */,
 				8DB6E9F7249512580097C2AD /* SettingViewController.swift in Sources */,
 			);
