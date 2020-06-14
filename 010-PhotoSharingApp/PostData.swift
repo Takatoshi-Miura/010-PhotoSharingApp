@@ -12,18 +12,25 @@
 
 import UIKit
 import Firebase
+import FirebaseUI
+import SVProgressHUD
 
 
 class PostData {
     
+    init() {
+    }
+    
+    
+    // 投稿を新規作成するときのイニシャライザ
     init(_ postImage:UIImage,_ postComment:String) {
         // 投稿IDのセット
         PostData.postCount += 1
-        postID  = PostData.postCount
+        self.postID  = PostData.postCount
         
         // アカウント名、画像、コメントのセット
         let user = Auth.auth().currentUser
-        self.accountName = user?.displayName
+        self.accountName = user?.displayName! as! String
         self.postImage = postImage
         self.postComment = postComment
         
@@ -35,19 +42,87 @@ class PostData {
         self.postTime = dateFormatter.string(from: now)
     }
     
-    static var postCount:Int = 0    // 投稿数
-    let postID:Int                  // 投稿ID
     
-    let accountName:String?         // 投稿者のアカウント名
-    let postImage:UIImage           // 投稿画像
-    let postComment:String          // 投稿コメント
-    let postTime:String             // 投稿日時
+    // 新規投稿データ用
+    static var postCount:Int = 0   // 投稿数
+    var postID:Int = 0             // 投稿ID
+    var accountName:String = ""    // 投稿者のアカウント名
+    var postComment:String = ""    // 投稿コメント
+    var postTime:String = ""       // 投稿日時
+    var postImage:UIImage = UIImage(systemName: "questionmark")!    // 投稿画像
+    
+    // データベースの投稿データ格納用
+    var postIDArray:[Int] = []
+    var accountNameArray:[String] = []
+    var postCommentArray:[String] = []
+    var postTimeArray:[String] = []
+    var postImageArray:[UIImage] = []
+
+    
+    // データベースの投稿を取得するメソッド
+    func readDatabase() {
+        // データベースのデータ格納用
+        var postImage:UIImageView! = UIImageView()
+        var postDataCollection = [String:Any]()
+        
+        // HUDで処理中を表示
+        SVProgressHUD.show()
+        
+        // データの取得
+        let db = Firestore.firestore()
+        db.collection("PostData").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    
+                    // 取得したデータをコレクションに格納
+                    postDataCollection = document.data()
+                    
+                    // 投稿IDを基に、画像をStorageから取得
+                    let storage = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com")
+                    let imageRef = storage.child("\(String(describing: postDataCollection["PostID"]))")
+                    postImage.sd_setImage(with: imageRef)
+                    
+                    // 取得データを配列に追加
+                    // 既に取得しているデータかどうかをpostIDで判定し、取得していなければ追加する。
+                    let ans = self.postIDArray.filter{$0 == postDataCollection["PostID"] as! Int}
+                    if ans == [] {
+                        print("重複していないので、データを追加します。")
+                        self.postIDArray.append(postDataCollection["PostID"] as! Int)
+                        self.accountNameArray.append(postDataCollection["AccountName"] as! String)
+                        self.postCommentArray.append(postDataCollection["PostComment"] as! String)
+                        self.postTimeArray.append(postDataCollection["PostTime"] as! String)
+                        self.postImageArray.append(postImage.image ?? UIImage(systemName: "questionmark")!)
+                        print(self.postIDArray)
+                    } else {
+                        print("重複してます。")
+                    }
+                    
+                }
+            }
+        }
+        // HUDを非表示
+        SVProgressHUD.dismiss()
+    }
+    
+    
+    // 投稿内容をフィールドにセットするメソッド
+    func setPostData(_ postID:Int) {
+        self.postID = postID-1
+        self.accountName = accountNameArray[postID-1]
+        self.postComment = postCommentArray[postID-1]
+        self.postTime    = postTimeArray[postID-1]
+        self.postImage   = postImageArray[postID-1]
+    }
     
     
     // 投稿内容を保存するメソッド
     func savePostData() {
         // 投稿画像以外をCloud Firestoreに保存
         uploadFirestore()
+        
         // 投稿画像をFirebaseのStorageに保存
         uploadImage()
     }
@@ -60,7 +135,7 @@ class PostData {
         var ref: DocumentReference? = nil
         ref = db.collection("PostData").addDocument(data: [
             "PostID"     : self.postID,
-            "AccountName": self.accountName ?? "",
+            "AccountName": self.accountName,
             "PostComment": self.postComment,
             "PostTime"   : self.postTime
         ]) { err in

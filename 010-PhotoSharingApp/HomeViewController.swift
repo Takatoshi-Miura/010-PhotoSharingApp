@@ -28,12 +28,7 @@ class HomeViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // delegateとdataSourceの指定
-        self.postTableView.delegate = self
-        self.postTableView.dataSource = self
-        
-        let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
-        postTableView.register(nib, forCellReuseIdentifier: "PostTableViewCell")
+        postTableView.register(UINib(nibName: "PostTableViewCell", bundle: nil), forCellReuseIdentifier: "PostTableViewCell")
     }
 
     
@@ -41,64 +36,28 @@ class HomeViewController: UITableViewController {
     @IBOutlet var postTableView: UITableView!
     
     // PostDataを格納した配列
-    var postDataArray = [PostTableViewCell]()
+    var postDataArray = [PostData]()
+    
     
     
     // HomeViewControllerが呼ばれたときの処理
     override func viewWillAppear(_ animated: Bool) {
-        // データベースのデータ格納用
-        var postImage:UIImageView!
-            postImage = UIImageView()
-        var postDataCollection = [String:Any]()
+        // 投稿データの取得
+        let databasePostData = PostData()
+        databasePostData.readDatabase()
         
-        // HUDで処理中を表示
-        SVProgressHUD.show()
-        
-        // データの取得
-        let db = Firestore.firestore()
-        db.collection("PostData").getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                    // 取得したデータをコレクションに格納
-                    postDataCollection = document.data()
-                    // 投稿IDを基に、画像をStorageから取得
-                    let storage = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com")
-                    let imageRef = storage.child("\(String(describing: postDataCollection["PostID"]))")
-                    postImage.sd_setImage(with: imageRef)
-                    // コレクションから値を取り出し、セルを作成
-                    let cell = PostTableViewCell()
-                    let comment:String? = String(describing: postDataCollection["PostComment"])
-                    let time:String?    = String(describing: postDataCollection["PostTime"])
-                    
-                    print("PostComment:\(String(describing: postDataCollection["PostComment"]))")
-                    print("PostTime:\(String(describing: postDataCollection["PostTime"]))")
-                    
-                    if let comment = comment {
-                        print(comment)
-                        cell.postComment.text = comment
-                    } else {
-                        print("commentはnilです。")
-                    }
-                    
-                    if let time = time {
-                        print(time)
-                        cell.postTime.text = time
-                    } else {
-                        print("timeはnilです。")
-                    }
-                    
-                    cell.postImage.sd_setImage(with: imageRef)
-                    // 作成したセルをリストに挿入
-                    self.postDataArray.insert(cell,at:0)
-                    self.postTableView.insertRows(at: [IndexPath(row:0,section:0)],with: UITableView.RowAnimation.right)
-                }
-                // HUDを非表示
-                SVProgressHUD.dismiss()
+        // 取得した投稿の数だけPostDataを作成
+        // データの取得が終わるまで時間待ち
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
+            for num in databasePostData.postIDArray {
+                databasePostData.setPostData(num)
+                self.postDataArray.append(databasePostData)
+                print("postDataArrayにデータを追加しました")
+                print("postDataArrayの要素数：\(self.postDataArray.count)")
+                self.postTableView.insertRows(at: [IndexPath(row:0,section:0)],with: UITableView.RowAnimation.right)
             }
         }
+                    
     }
     
     
@@ -118,11 +77,10 @@ class HomeViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //Storyboardで指定した識別子を利用して再利用可能なセルを取得する
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
+        cell.printPostData(postDataArray[indexPath.row].postImage, postDataArray[indexPath.row].postComment, postDataArray[indexPath.row].postTime)
+        print("実行しました")
         return cell
     }
-    
-    
-    // Firebaseから投稿内容を読み取るメソッド
     
     
     // HomeViewControllerが呼ばれたときの処理

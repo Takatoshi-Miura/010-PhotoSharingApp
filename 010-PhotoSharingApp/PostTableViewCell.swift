@@ -9,27 +9,6 @@
 import UIKit
 
 class PostTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
-    }
-    
-    init() {
-        super.init(style: .default, reuseIdentifier: nil)
-        self.postComment.text = ""
-        self.postTime.text    = ""
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var postTime: UILabel!
