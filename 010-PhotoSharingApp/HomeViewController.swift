@@ -73,11 +73,16 @@ class HomeViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //Storyboardで指定した識別子を利用して再利用可能なセルを取得する
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
-        print("indexPath.row:\(indexPath.row)")
+        
         cell.printPostData(postDataArray[indexPath.row].postImage,
                            postDataArray[indexPath.row].accountName,
                            postDataArray[indexPath.row].postComment,
                            postDataArray[indexPath.row].postTime)
+        
+        // 画像を取得し、セルに格納する
+        let storage = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com")
+        let imageRef = storage.child("\(postDataArray[indexPath.row].postID)")
+        cell.postImage.sd_setImage(with: imageRef)
         return cell
     }
     

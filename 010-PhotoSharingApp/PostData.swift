@@ -91,20 +91,13 @@ class PostData {
                     // 取得データ(画像以外)をコレクションに格納
                     let postDataCollection = document.data()
                     print("\(document.documentID) => \(postDataCollection)")
-                    
-                    // 投稿IDを基に、画像をStorageから取得(画像名 = 投稿ID)
-                    let storage = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com")
-                    let imageRef = storage.child("\(String(describing: postDataCollection["PostID"]))")
-                    let postImage:UIImageView! = UIImageView()
-                    postImage.sd_setImage(with: imageRef)
                 
                     // 取得データを基に、投稿データを作成
                     let databasePostData = PostData(postDataCollection["PostID"] as! Int,
                                                     postDataCollection["AccountName"] as! String,
                                                     postDataCollection["PostComment"] as! String,
                                                     postDataCollection["PostTime"] as! String,
-                                                    postImage.image ?? UIImage(systemName: "questionmark")!
-                                                    )
+                                                    UIImage(systemName: "questionmark")!)
                     
                     // 投稿データを格納 ＆ TODO:PostIDの降順にソート
                     self.postDataArray.append(databasePostData)
@@ -120,6 +113,7 @@ class PostData {
             SVProgressHUD.dismiss()
         }
     }
+    
     
     
     // 投稿内容を保存するメソッド
