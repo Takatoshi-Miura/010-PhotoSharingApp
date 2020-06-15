@@ -18,10 +18,12 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var postTime: UILabel!
     @IBOutlet weak var postComment: UILabel!
+    @IBOutlet weak var replyComment: UILabel!
     
     
     // 「返信」ボタンの処理
     @IBAction func replyCommentButton(_ sender: Any) {
+        replyComment.text = ""
     }
     
     
