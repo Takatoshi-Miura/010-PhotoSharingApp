@@ -95,7 +95,7 @@ class HomeViewController: UITableViewController {
     // セルの高さ設定
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // TODO:セルの高さを自動調整
-        return 400
+        return 450
     }
     
     
