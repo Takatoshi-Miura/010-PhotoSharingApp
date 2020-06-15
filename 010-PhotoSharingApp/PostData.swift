@@ -97,13 +97,14 @@ class PostData {
                     let imageRef = storage.child("\(String(describing: postDataCollection["PostID"]))")
                     let postImage:UIImageView! = UIImageView()
                     postImage.sd_setImage(with: imageRef)
-                    
+                
                     // 取得データを基に、投稿データを作成
                     let databasePostData = PostData(postDataCollection["PostID"] as! Int,
                                                     postDataCollection["AccountName"] as! String,
                                                     postDataCollection["PostComment"] as! String,
                                                     postDataCollection["PostTime"] as! String,
-                                                    postImage.image ?? UIImage(systemName: "questionmark")!)
+                                                    postImage.image ?? UIImage(systemName: "questionmark")!
+                                                    )
                     
                     // 投稿データを格納 ＆ TODO:PostIDの降順にソート
                     self.postDataArray.append(databasePostData)
@@ -153,14 +154,21 @@ class PostData {
     
     // 画像データをStorageにアップロードするメソッド
     func uploadImage() {
-        //Storageの参照（名前を投稿IDに設定して保存）
-        let storageref = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com").child("\(self.postID)")
-        //画像
+        // Storageの参照（名前を投稿IDに設定して保存）
+        let storageref  = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com").child("\(self.postID)")
+        
+        // contentTypeの指定 (Storega上で画像をダウンロードすることなく、確認するため)
+        let storagemeta = StorageMetadata()
+        storagemeta.contentType = "image/jpeg"
+       
+        // 画像
         let image = self.postImage
-        //imageをNSDataに変換
+        
+        // imageをNSDataに変換
         let data = image.jpegData(compressionQuality: 1.0)! as NSData
-        //Storageに保存
-        storageref.putData(data as Data, metadata: nil) { (data, error) in
+        
+        // Storageに保存
+        storageref.putData(data as Data, metadata: storagemeta) { (data, error) in
             if error != nil {
                 return
             }
