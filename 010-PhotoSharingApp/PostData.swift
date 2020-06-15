@@ -78,9 +78,10 @@ class PostData {
         // 配列の初期化
         postDataArray = []
         
-        // データの取得
+        // データをPostIDの降順にソートして取得
+        // ホーム画面にて、古い投稿を下、新しい投稿を上に表示させるためにソートする
         let db = Firestore.firestore()
-        db.collection("PostData").getDocuments() { (querySnapshot, err) in
+        db.collection("PostData").order(by: "PostID", descending: true).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
