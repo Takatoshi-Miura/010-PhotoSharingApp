@@ -43,9 +43,6 @@ class HomeViewController: UITableViewController {
     
     // HomeViewControllerが呼ばれたときの処理
     override func viewWillAppear(_ animated: Bool) {
-        // 配列の初期化
-        self.postDataArray = []
-        
         // データベースの投稿を取得
         let databasePostData = PostData()
         databasePostData.loadDatabase()
@@ -53,6 +50,7 @@ class HomeViewController: UITableViewController {
         // 投稿データを保存
         // データの取得が終わるまで時間待ち
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
+            self.postDataArray = []
             self.postDataArray = databasePostData.postDataArray
             self.postTableView?.reloadData()
         }
@@ -75,6 +73,7 @@ class HomeViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //Storyboardで指定した識別子を利用して再利用可能なセルを取得する
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
+        print("indexPath.row:\(indexPath.row)")
         cell.printPostData(postDataArray[indexPath.row].postImage,
                            postDataArray[indexPath.row].accountName,
                            postDataArray[indexPath.row].postComment,

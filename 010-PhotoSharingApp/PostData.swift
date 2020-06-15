@@ -104,6 +104,8 @@ class PostData {
                                                     postDataCollection["PostComment"] as! String,
                                                     postDataCollection["PostTime"] as! String,
                                                     postImage.image ?? UIImage(systemName: "questionmark")!)
+                    
+                    // 投稿データを格納 ＆ TODO:PostIDの降順にソート
                     self.postDataArray.append(databasePostData)
                     
                     // postIDの重複対策
