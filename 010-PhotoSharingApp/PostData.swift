@@ -75,9 +75,6 @@ class PostData {
     
     // データベースの投稿を取得するメソッド
     func loadDatabase() {
-        // HUDで処理中を表示
-        SVProgressHUD.show()
-        
         // 配列の初期化
         postDataArray = []
         
@@ -109,8 +106,6 @@ class PostData {
                     }
                 }
             }
-            // HUDを非表示
-            SVProgressHUD.dismiss()
         }
     }
     

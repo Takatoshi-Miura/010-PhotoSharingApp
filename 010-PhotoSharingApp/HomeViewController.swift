@@ -43,6 +43,9 @@ class HomeViewController: UITableViewController {
     
     // HomeViewControllerが呼ばれたときの処理
     override func viewWillAppear(_ animated: Bool) {
+        // HUDで処理中を表示
+        SVProgressHUD.show()
+        
         // データベースの投稿を取得
         let databasePostData = PostData()
         databasePostData.loadDatabase()
@@ -53,6 +56,8 @@ class HomeViewController: UITableViewController {
             self.postDataArray = []
             self.postDataArray = databasePostData.postDataArray
             self.postTableView?.reloadData()
+            // HUDを非表示
+            SVProgressHUD.dismiss()
         }
     }
     
@@ -90,7 +95,7 @@ class HomeViewController: UITableViewController {
     // セルの高さ設定
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // TODO:セルの高さを自動調整
-        return 450
+        return 400
     }
     
     
