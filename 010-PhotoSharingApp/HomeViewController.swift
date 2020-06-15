@@ -28,6 +28,8 @@ class HomeViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        postTableView.dataSource = self
+        postTableView.delegate   = self
         postTableView.register(UINib(nibName: "PostTableViewCell", bundle: nil), forCellReuseIdentifier: "PostTableViewCell")
     }
 
@@ -39,25 +41,21 @@ class HomeViewController: UITableViewController {
     var postDataArray = [PostData]()
     
     
-    
     // HomeViewControllerが呼ばれたときの処理
     override func viewWillAppear(_ animated: Bool) {
-        // 投稿データの取得
+        // 配列の初期化
+        self.postDataArray = []
+        
+        // データベースの投稿を取得
         let databasePostData = PostData()
         databasePostData.loadDatabase()
         
-        // 取得した投稿の数だけPostDataを作成
+        // 投稿データを保存
         // データの取得が終わるまで時間待ち
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
-            for num in databasePostData.postIDArray {
-                databasePostData.setPostData(num)
-                self.postDataArray.append(databasePostData)
-                print("postDataArrayにデータを追加しました")
-                print("postDataArrayの要素数：\(self.postDataArray.count)")
-            }
-            self.postTableView.insertRows(at: [IndexPath(row:0,section:0)],with: UITableView.RowAnimation.right)
+            self.postDataArray = databasePostData.postDataArray
+            self.postTableView?.reloadData()
         }
-        
     }
     
     
@@ -72,7 +70,7 @@ class HomeViewController: UITableViewController {
         return postDataArray.count
     }
 
-
+    
     // テーブルの行ごとのセルを返却する
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //Storyboardで指定した識別子を利用して再利用可能なセルを取得する
@@ -84,8 +82,10 @@ class HomeViewController: UITableViewController {
         return cell
     }
     
+    
     // セルの高さ設定
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        // TODO:セルの高さを自動調整
         return 450
     }
     

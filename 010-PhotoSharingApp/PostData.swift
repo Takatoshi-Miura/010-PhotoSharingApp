@@ -34,15 +34,12 @@ class PostData {
     var postTime:String = ""       // 投稿日時
     var postImage:UIImage = UIImage(systemName: "questionmark")!    // 投稿画像
     
-    // データベースの投稿データ格納用
-    var postIDArray:[Int] = []
-    var accountNameArray:[String] = []
-    var postCommentArray:[String] = []
-    var postTimeArray:[String] = []
-    var postImageArray:[UIImage] = []
+    
+    // データベースの投稿データを格納する
+    var postDataArray = [PostData]()
 
     
-    // データベースの投稿取得用イニシャライザ
+    // イニシャライザ
     init() {
     }
      
@@ -66,15 +63,23 @@ class PostData {
         self.postTime = dateFormatter.string(from: now)
     }
     
+    // データベースの投稿データ取得用イニシャライザ
+    init(_ postID:Int,_ accountName:String,_ postComment:String,_ postTime:String,_ postImage:UIImage) {
+        self.postID      = postID
+        self.accountName = accountName
+        self.postComment = postComment
+        self.postTime    = postTime
+        self.postImage   = postImage
+    }
+    
     
     // データベースの投稿を取得するメソッド
     func loadDatabase() {
-        // データベースのデータ格納用
-        var postImage:UIImageView! = UIImageView()
-        var postDataCollection = [String:Any]()
-        
         // HUDで処理中を表示
         SVProgressHUD.show()
+        
+        // 配列の初期化
+        postDataArray = []
         
         // データの取得
         let db = Firestore.firestore()
@@ -83,49 +88,34 @@ class PostData {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
+                    // 取得データ(画像以外)をコレクションに格納
+                    let postDataCollection = document.data()
+                    print("\(document.documentID) => \(postDataCollection)")
                     
-                    // 取得したデータをコレクションに格納
-                    postDataCollection = document.data()
-                    
-                    // 投稿IDを基に、画像をStorageから取得
+                    // 投稿IDを基に、画像をStorageから取得(画像名 = 投稿ID)
                     let storage = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com")
                     let imageRef = storage.child("\(String(describing: postDataCollection["PostID"]))")
+                    let postImage:UIImageView! = UIImageView()
                     postImage.sd_setImage(with: imageRef)
                     
-                    // 取得データを配列に追加
-                    // 既に取得しているデータかどうかをpostIDで判定し、取得していなければ追加する。
-                    let ans = self.postIDArray.filter{$0 == postDataCollection["PostID"] as! Int}
-                    if ans == [] {
-                        print("重複していないので、データを追加します。")
-                        self.postIDArray.append(postDataCollection["PostID"] as! Int)
-                        self.accountNameArray.append(postDataCollection["AccountName"] as! String)
-                        self.postCommentArray.append(postDataCollection["PostComment"] as! String)
-                        self.postTimeArray.append(postDataCollection["PostTime"] as! String)
-                        self.postImageArray.append(postImage.image ?? UIImage(systemName: "questionmark")!)
-                        print(self.postIDArray)
-                        if self.postID > PostData.postCount {
-                            PostData.postCount = self.postID
-                        }
-                    } else {
-                        print("重複してます。")
-                    }
+                    // 取得データを基に、投稿データを作成
+                    let databasePostData = PostData(postDataCollection["PostID"] as! Int,
+                                                    postDataCollection["AccountName"] as! String,
+                                                    postDataCollection["PostComment"] as! String,
+                                                    postDataCollection["PostTime"] as! String,
+                                                    postImage.image ?? UIImage(systemName: "questionmark")!)
+                    self.postDataArray.append(databasePostData)
                     
+                    // postIDの重複対策
+                    // データベースの投稿IDの最大値を取得し、新規投稿時のIDは最大値＋１で設定
+                    if databasePostData.postID > PostData.postCount {
+                        PostData.postCount = databasePostData.postID
+                    }
                 }
             }
+            // HUDを非表示
+            SVProgressHUD.dismiss()
         }
-        // HUDを非表示
-        SVProgressHUD.dismiss()
-    }
-    
-    
-    // 投稿内容をフィールドにセットするメソッド
-    func setPostData(_ postID:Int) {
-        self.postID = postID-1
-        self.accountName = accountNameArray[postID-1]
-        self.postComment = postCommentArray[postID-1]
-        self.postTime    = postTimeArray[postID-1]
-        self.postImage   = postImageArray[postID-1]
     }
     
     
