@@ -49,14 +49,21 @@ class LoginViewController: UIViewController {
             SVProgressHUD.show()
             
             // ログイン処理
-            // アドレスとパスワードの組み合わせが一致しなければログインに失敗する
             Auth.auth().signIn(withEmail: address, password: password) { authResult, error in
-                if let error = error {
-                    print("DEBUG_PRINT: " + error.localizedDescription)
-                    SVProgressHUD.showError(withStatus: "ログインに失敗しました。入力を確認して下さい。")
+                // エラーのハンドリング
+                if let errorCode = AuthErrorCode(rawValue: error!._code) {
+                    switch errorCode {
+                        case .invalidEmail:
+                            SVProgressHUD.showError(withStatus: "メールアドレスの形式が違います。")
+                        case .wrongPassword:
+                            SVProgressHUD.showError(withStatus: "パスワードが間違っています。")
+                        default:
+                            SVProgressHUD.showError(withStatus: "ログインに失敗しました。入力を確認して下さい。")
+                    }
                     return
                 }
                 SVProgressHUD.showSuccess(withStatus: "ログインしました。")
+                
                 // タブ画面に遷移
                 // メッセージが隠れてしまうため、遅延処理を行う
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
@@ -65,10 +72,10 @@ class LoginViewController: UIViewController {
             }
         }
     }
+        
     
     // 「アカウント作成」ボタンの処理
     @IBAction func createAccountButton(_ sender: Any) {
-        
         // アドレス,パスワード名,アカウント名の入力を確認
         if let address = textFieldMailAddress.text, let password = textFieldPassword.text, let accountName = textFieldAccountName.text {
             
@@ -79,19 +86,28 @@ class LoginViewController: UIViewController {
             }
             
             // アカウント作成処理
-            // 入力されたアドレスのアカウントが存在する場合は、アカウント作成に失敗する
             Auth.auth().createUser(withEmail: textFieldMailAddress.text!, password: textFieldPassword.text!) { authResult, error in
-                if let error = error {
-                    print("DEBUG_PRINT: " + error.localizedDescription)
-                    SVProgressHUD.showError(withStatus: "アカウントの作成に失敗しました。")
+                // エラーのハンドリング
+                if let errorCode = AuthErrorCode(rawValue: error!._code) {
+                    switch errorCode {
+                        case .invalidEmail:
+                            SVProgressHUD.showError(withStatus: "メールアドレスの形式が違います。")
+                        case .emailAlreadyInUse:
+                            SVProgressHUD.showError(withStatus: "既にこのメールアドレスは使われています。")
+                        case .weakPassword:
+                            SVProgressHUD.showError(withStatus: "パスワードは6文字以上で入力してください。")
+                        default:
+                            SVProgressHUD.showError(withStatus: "エラーが起きました。しばらくしてから再度お試しください。")
+                    }
                     return
                 }
+                
                 // アカウント名の登録
                 let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
                 changeRequest?.displayName = accountName
-                changeRequest?.commitChanges { (error) in
-                }
+                changeRequest?.commitChanges { (error) in}
                 SVProgressHUD.showSuccess(withStatus: "アカウントを作成しました。")
+                
                 // タブ画面に遷移
                 // メッセージが隠れてしまうため、遅延処理を行う
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
@@ -100,6 +116,7 @@ class LoginViewController: UIViewController {
             }
         }
     }
+    
     
     // ログイン画面に戻ってくるときに呼び出される処理
     @IBAction func goToLogin(_segue:UIStoryboardSegue){
