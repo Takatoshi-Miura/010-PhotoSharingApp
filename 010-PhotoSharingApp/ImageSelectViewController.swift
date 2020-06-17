@@ -22,6 +22,7 @@
 
 import UIKit
 import SVProgressHUD
+import CLImageEditor
 
 class ImageSelectViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -78,7 +79,26 @@ class ImageSelectViewController: UIViewController, UIImagePickerControllerDelega
         selectImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         // 投稿内容編集画面に遷移
         self.performSegue(withIdentifier: "goPostViewController", sender: nil)
-        
+    }
+    
+    
+    // キャンセルした時に呼ばれるメソッド
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+      // 今開いている画面を閉じる
+      picker.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    //
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        let pickerController = navigationController as! UIImagePickerController
+        if pickerController.sourceType == .camera {
+            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidPush))
+        }
+    }
+
+    @objc func cancelButtonDidPush() {
+        dismiss(animated: true, completion: nil)
     }
     
     

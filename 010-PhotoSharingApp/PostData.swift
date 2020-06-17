@@ -32,6 +32,7 @@ class PostData {
     var accountName:String = ""    // 投稿者のアカウント名
     var postComment:String = ""    // 投稿コメント
     var postTime:String = ""       // 投稿日時
+    var replyComment:String = ""   // 返信コメント
     
     
     // データベースの投稿データを格納する
@@ -62,11 +63,12 @@ class PostData {
     }
     
     // データベースの投稿データ取得用イニシャライザ
-    init(_ postID:Int,_ accountName:String,_ postComment:String,_ postTime:String) {
-        self.postID      = postID
-        self.accountName = accountName
-        self.postComment = postComment
-        self.postTime    = postTime
+    init(_ postID:Int,_ accountName:String,_ postComment:String,_ postTime:String,_ replyComment:String) {
+        self.postID       = postID
+        self.accountName  = accountName
+        self.postComment  = postComment
+        self.postTime     = postTime
+        self.replyComment = replyComment
     }
     
     
@@ -93,7 +95,8 @@ class PostData {
                     let databasePostData = PostData(postDataCollection["PostID"] as! Int,
                                                     postDataCollection["AccountName"] as! String,
                                                     postDataCollection["PostComment"] as! String,
-                                                    postDataCollection["PostTime"] as! String)
+                                                    postDataCollection["PostTime"] as! String,
+                                                    postDataCollection["ReplyComment"] as! String)
                     
                     // 投稿データを格納 ＆ TODO:PostIDの降順にソート
                     self.postDataArray.append(databasePostData)
@@ -106,6 +109,17 @@ class PostData {
                 }
             }
         }
+    }
+    
+    
+    // 返信コメントを更新するメソッド
+    func updateReplyComment(_ postID:Int,_ replyComment:String) {
+        // 受け取ったPostIDの投稿データにアクセス
+        let db = Firestore.firestore()
+        let washingtonRef = db.collection("PostData").whereField("PostID", isEqualTo: postID)
+
+        // 返信コメントを更新する
+        washingtonRef.setValue(replyComment, forKey: "ReplyComment")
     }
     
     
@@ -125,10 +139,11 @@ class PostData {
         let db = Firestore.firestore()
         var ref: DocumentReference? = nil
         ref = db.collection("PostData").addDocument(data: [
-            "PostID"     : self.postID,
-            "AccountName": self.accountName,
-            "PostComment": self.postComment,
-            "PostTime"   : self.postTime
+            "PostID"      : self.postID,
+            "AccountName" : self.accountName,
+            "PostComment" : self.postComment,
+            "PostTime"    : self.postTime,
+            "ReplyComment": self.replyComment
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
