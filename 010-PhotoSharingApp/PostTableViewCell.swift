@@ -12,7 +12,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 import FirebaseStorage
 
 class PostTableViewCell: UITableViewCell {
@@ -25,22 +24,20 @@ class PostTableViewCell: UITableViewCell {
     
     // 「返信」ボタンの処理
     @IBAction func replyCommentButton(_ sender: Any) {
-        let homeViewController = HomeViewController()
-        homeViewController.addReplyComment()
+        replyComment.text = ""
     }
     
     
     // セルに投稿内容を表示するメソッド
-    func printPostData(_ setAccountName:String,_ setComment:String,_ setTime:String,_ setID:Int,_ setReplyComment:String) {
+    func printPostData(_ setAccountName:String,_ setComment:String,_ setTime:String,_ setID:Int) {
         // 画像を取得し、セルに格納する
         let storage = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com")
         let imageRef = storage.child("\(setID)")
         postImage.sd_setImage(with: imageRef)
         
         // コメント,投稿日時を表示
-        postComment.text  = "\(setAccountName):\(setComment)"
-        postTime.text     = setTime
-        replyComment.text = setReplyComment
+        postComment.text = "\(setAccountName):\(setComment)"
+        postTime.text    = setTime
     }
     
     

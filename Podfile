@@ -15,6 +15,5 @@ pod 'Firebase/Auth'
 pod 'Firebase/Storage'
 pod 'SVProgressHUD'
 pod 'FirebaseUI/Storage'
-pod 'CLImageEditor'
 
 end

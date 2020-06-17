@@ -67,39 +67,6 @@ class HomeViewController: UITableViewController {
     }
     
     
-    // 返信コメントを追加するメソッド
-    func addReplyComment() {
-        // アラートダイアログを生成
-        let alertController:UIAlertController = UIAlertController(title:"返信",message:"コメントを入力してください",preferredStyle:UIAlertController.Style.alert)
-        
-         // テキストエリアを追加
-         alertController.addTextField(configurationHandler:nil)
-         
-         // OKボタンを宣言
-         let okAction = UIAlertAction(title:"返信",style:UIAlertAction.Style.default){(action:UIAlertAction)in
-             // OKボタンがタップされたときの処理
-             if let textField = alertController.textFields?.first {
-                 // 現在のアカウントを取得
-                 let user = Auth.auth().currentUser
-                 
-                 // 返信コメントをデータベースに保存
-                 let postData = PostData()
-                 postData.updateReplyComment(0, "\(user?.displayName):\(textField.text)")
-             }
-         }
-         //OKボタンを追加
-         alertController.addAction(okAction)
-         
-         //CANCELボタンを宣言
-         let cancelButton = UIAlertAction(title:"CANCEL",style:UIAlertAction.Style.cancel,handler:nil)
-         //CANCELボタンを追加
-         alertController.addAction(cancelButton)
-
-         //アラートダイアログを表示
-         present(alertController, animated: true, completion: nil)
-    }
-    
-    
     // セクションの数を返却する
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -121,8 +88,7 @@ class HomeViewController: UITableViewController {
         cell.printPostData(postDataArray[indexPath.row].accountName,
                            postDataArray[indexPath.row].postComment,
                            postDataArray[indexPath.row].postTime,
-                           postDataArray[indexPath.row].postID,
-                           postDataArray[indexPath.row].replyComment)
+                           postDataArray[indexPath.row].postID)
         
         return cell
     }
