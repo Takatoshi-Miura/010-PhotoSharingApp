@@ -22,6 +22,7 @@
 
 import UIKit
 import SVProgressHUD
+import CLImageEditor
 
 class ImageSelectViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
