@@ -31,6 +31,10 @@ class HomeViewController: UITableViewController {
         postTableView.dataSource = self
         postTableView.delegate   = self
         postTableView.register(UINib(nibName: "PostTableViewCell", bundle: nil), forCellReuseIdentifier: "PostTableViewCell")
+        
+        self.postTableView.reloadRows(at:[IndexPath(row: 0, section: 0)],with:UITableView.RowAnimation.fade)
+        self.postTableView?.reloadData()
+        
     }
 
     
@@ -50,11 +54,12 @@ class HomeViewController: UITableViewController {
         let databasePostData = PostData()
         databasePostData.loadDatabase()
         
-        // 投稿データを保存
+        // 投稿データを取得
         // データの取得が終わるまで時間待ち
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
             self.postDataArray = []
             self.postDataArray = databasePostData.postDataArray
+            
             self.postTableView?.reloadData()
             // HUDを非表示
             SVProgressHUD.dismiss()
@@ -76,25 +81,21 @@ class HomeViewController: UITableViewController {
     
     // テーブルの行ごとのセルを返却する
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //Storyboardで指定した識別子を利用して再利用可能なセルを取得する
+        // Storyboardで指定した識別子を利用して再利用可能なセルを取得する
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
         
-        cell.printPostData(postDataArray[indexPath.row].postImage,
-                           postDataArray[indexPath.row].accountName,
+        // セルに投稿データをセットする
+        cell.printPostData(postDataArray[indexPath.row].accountName,
                            postDataArray[indexPath.row].postComment,
-                           postDataArray[indexPath.row].postTime)
+                           postDataArray[indexPath.row].postTime,
+                           postDataArray[indexPath.row].postID)
         
-        // 画像を取得し、セルに格納する
-        let storage = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com")
-        let imageRef = storage.child("\(postDataArray[indexPath.row].postID)")
-        cell.postImage.sd_setImage(with: imageRef)
         return cell
     }
     
     
     // セルの高さ設定
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        // TODO:セルの高さを自動調整
         return 450
     }
     

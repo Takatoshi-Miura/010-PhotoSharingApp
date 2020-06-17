@@ -41,9 +41,11 @@ class PostViewController: UIViewController {
     @IBAction func postButton(_ sender: Any) {
         // 投稿内容を格納する
         let postComment:String = postTextField.text!
-        let postData = PostData((selectedImage ?? UIImage(systemName: "questionmark"))!,postComment )
+        let postData = PostData(postComment)
+        
         // Firebaseに投稿データを保存する
-        postData.savePostData()
+        postData.savePostData(selectedImage!)
+        
         // ホーム画面に遷移
     }
     

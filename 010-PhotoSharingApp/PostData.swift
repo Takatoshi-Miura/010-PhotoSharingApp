@@ -11,7 +11,7 @@
 //
 //  ＜機能＞
 //  投稿データ作成機能
-//      イニシャライザに投稿したい画像とコメントを渡すことで、投稿データを作成できる。
+//      イニシャライザに投稿したいコメントを渡すことで、投稿データを作成できる。
 //  投稿機能
 //      画像はStorageに、その他の投稿データはCloudFire Storeに投稿できる。
 //  投稿データ取得機能
@@ -32,7 +32,6 @@ class PostData {
     var accountName:String = ""    // 投稿者のアカウント名
     var postComment:String = ""    // 投稿コメント
     var postTime:String = ""       // 投稿日時
-    var postImage:UIImage = UIImage(systemName: "questionmark")!    // 投稿画像
     
     
     // データベースの投稿データを格納する
@@ -44,15 +43,14 @@ class PostData {
     }
      
     // 投稿を新規作成するときのイニシャライザ
-    init(_ postImage:UIImage,_ postComment:String) {
+    init(_ postComment:String) {
         // 投稿IDのセット
         PostData.postCount += 1
         self.postID  = PostData.postCount
         
-        // アカウント名、画像、コメントのセット
+        // アカウント名、コメントのセット
         let user = Auth.auth().currentUser
         self.accountName = user?.displayName! as! String
-        self.postImage = postImage
         self.postComment = postComment
         
         // 現在時刻のセット
@@ -64,12 +62,11 @@ class PostData {
     }
     
     // データベースの投稿データ取得用イニシャライザ
-    init(_ postID:Int,_ accountName:String,_ postComment:String,_ postTime:String,_ postImage:UIImage) {
+    init(_ postID:Int,_ accountName:String,_ postComment:String,_ postTime:String) {
         self.postID      = postID
         self.accountName = accountName
         self.postComment = postComment
         self.postTime    = postTime
-        self.postImage   = postImage
     }
     
     
@@ -78,15 +75,17 @@ class PostData {
         // 配列の初期化
         postDataArray = []
         
-        // データをPostIDの降順にソートして取得
-        // ホーム画面にて、古い投稿を下、新しい投稿を上に表示させるためにソートする
+        // データ取得
+        // ホーム画面にて、古い投稿を下、新しい投稿を上に表示させるため、PostIDの降順にソートする
         let db = Firestore.firestore()
         db.collection("PostData").order(by: "PostID", descending: true).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
+                    
                     // 取得データ(画像以外)をコレクションに格納
+                    // 画像はPostTableViewCellにて取得するため、ここでは取得しない。
                     let postDataCollection = document.data()
                     print("\(document.documentID) => \(postDataCollection)")
                 
@@ -94,8 +93,7 @@ class PostData {
                     let databasePostData = PostData(postDataCollection["PostID"] as! Int,
                                                     postDataCollection["AccountName"] as! String,
                                                     postDataCollection["PostComment"] as! String,
-                                                    postDataCollection["PostTime"] as! String,
-                                                    UIImage(systemName: "questionmark")!)
+                                                    postDataCollection["PostTime"] as! String)
                     
                     // 投稿データを格納 ＆ TODO:PostIDの降順にソート
                     self.postDataArray.append(databasePostData)
@@ -111,14 +109,13 @@ class PostData {
     }
     
     
-    
     // 投稿内容を保存するメソッド
-    func savePostData() {
+    func savePostData(_ postImage:UIImage) {
         // 投稿画像以外をCloud Firestoreに保存
         uploadFirestore()
         
         // 投稿画像をFirebaseのStorageに保存
-        uploadImage()
+        uploadImage(postImage)
     }
     
     
@@ -143,19 +140,16 @@ class PostData {
     
     
     // 画像データをStorageにアップロードするメソッド
-    func uploadImage() {
+    func uploadImage(_ postImage:UIImage) {
         // Storageの参照（名前を投稿IDに設定して保存）
         let storageref  = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com").child("\(self.postID)")
         
         // contentTypeの指定 (Storega上で画像をダウンロードすることなく、確認するため)
         let storagemeta = StorageMetadata()
         storagemeta.contentType = "image/jpeg"
-       
-        // 画像
-        let image = self.postImage
         
         // imageをNSDataに変換
-        let data = image.jpegData(compressionQuality: 1.0)! as NSData
+        let data = postImage.jpegData(compressionQuality: 1.0)! as NSData
         
         // Storageに保存
         storageref.putData(data as Data, metadata: storagemeta) { (data, error) in

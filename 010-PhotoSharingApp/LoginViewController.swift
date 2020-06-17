@@ -51,15 +51,8 @@ class LoginViewController: UIViewController {
             // ログイン処理
             Auth.auth().signIn(withEmail: address, password: password) { authResult, error in
                 // エラーのハンドリング
-                if let errorCode = AuthErrorCode(rawValue: error!._code) {
-                    switch errorCode {
-                        case .invalidEmail:
-                            SVProgressHUD.showError(withStatus: "メールアドレスの形式が違います。")
-                        case .wrongPassword:
-                            SVProgressHUD.showError(withStatus: "パスワードが間違っています。")
-                        default:
-                            SVProgressHUD.showError(withStatus: "ログインに失敗しました。入力を確認して下さい。")
-                    }
+                if let error = error {
+                    SVProgressHUD.showError(withStatus: "ログインに失敗しました。入力を確認してください。")
                     return
                 }
                 SVProgressHUD.showSuccess(withStatus: "ログインしました。")

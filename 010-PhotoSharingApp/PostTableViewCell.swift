@@ -12,6 +12,7 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class PostTableViewCell: UITableViewCell {
     
@@ -28,11 +29,17 @@ class PostTableViewCell: UITableViewCell {
     
     
     // セルに投稿内容を表示するメソッド
-    func printPostData(_ setImage:UIImage,_ setAccountName:String,_ setComment:String,_ setTime:String) {
-        // 画像,コメント,投稿日時を表示
-        postImage.image  = setImage
+    func printPostData(_ setAccountName:String,_ setComment:String,_ setTime:String,_ setID:Int) {
+        // 画像を取得し、セルに格納する
+        let storage = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com")
+        let imageRef = storage.child("\(setID)")
+        postImage.sd_setImage(with: imageRef)
+        
+        // コメント,投稿日時を表示
         postComment.text = "\(setAccountName):\(setComment)"
         postTime.text    = setTime
     }
+    
+    
     
 }
