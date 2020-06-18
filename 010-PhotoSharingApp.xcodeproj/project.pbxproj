@@ -134,6 +134,7 @@
 		8D80F9532499DB8C00A51F33 /* CLImageEditorTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLImageEditorTheme.h; sourceTree = "<group>"; };
 		8D80F9542499DB8C00A51F33 /* CLImageEditor.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CLImageEditor.bundle; sourceTree = "<group>"; };
 		8D80F9772499DC0400A51F33 /* CLImageEditor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CLImageEditor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D80F979249A163A00A51F33 /* CLImageEditor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CLImageEditor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DA858CB24959A6600AD0467 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		8DA858CC24959A6600AD0467 /* PostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostTableViewCell.xib; sourceTree = "<group>"; };
 		8DB6E9D32494FBDB0097C2AD /* 010-PhotoSharingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "010-PhotoSharingApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,6 +186,7 @@
 		8A0669CC31A4CF55FCAD1FE4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8D80F979249A163A00A51F33 /* CLImageEditor.framework */,
 				8D80F9772499DC0400A51F33 /* CLImageEditor.framework */,
 				8DB6E9F2249500520097C2AD /* QuartzCore.framework */,
 				9FE4A6E939E19C5C64CB73E6 /* Pods_010_PhotoSharingApp.framework */,

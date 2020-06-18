@@ -16,28 +16,31 @@ import FirebaseStorage
 
 class PostTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var postImage: UIImageView!
-    @IBOutlet weak var postTime: UILabel!
-    @IBOutlet weak var postComment: UILabel!
-    @IBOutlet weak var replyComment: UILabel!
+    @IBOutlet weak var postImage: UIImageView!  // 投稿画像
+    @IBOutlet weak var postTime: UILabel!       // 投稿日時
+    @IBOutlet weak var postComment: UILabel!    // 投稿コメント
+    @IBOutlet weak var replyComment: UILabel!   // 返信コメント
+    var postID:Int = 0                          // 投稿ID。表示はしないが、返信コメント追加時に必要。
     
     
-    // 「返信」ボタンの処理
-    @IBAction func replyCommentButton(_ sender: Any) {
-        replyComment.text = ""
-    }
+    @IBOutlet weak var replyCommentButton: UIButton!    // 「返信」ボタン
+
     
     
     // セルに投稿内容を表示するメソッド
-    func printPostData(_ setAccountName:String,_ setComment:String,_ setTime:String,_ setID:Int) {
+    func printPostData(_ setAccountName:String,_ setComment:String,_ setTime:String,_ setID:Int,_ setReplyComment:String) {
         // 画像を取得し、セルに格納する
         let storage = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com")
         let imageRef = storage.child("\(setID)")
         postImage.sd_setImage(with: imageRef)
         
+        // 投稿IDをセット
+        self.postID = setID
+        
         // コメント,投稿日時を表示
-        postComment.text = "\(setAccountName):\(setComment)"
-        postTime.text    = setTime
+        postComment.text  = "\(setAccountName):\(setComment)"
+        postTime.text     = setTime
+        replyComment.text = setReplyComment
     }
     
     

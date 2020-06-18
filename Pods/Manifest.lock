@@ -220,7 +220,24 @@ PODS:
   - BoringSSL-GRPC/Interface (0.0.7)
   - CLImageEditor (0.2.4):
     - CLImageEditor/Core (= 0.2.4)
+  - CLImageEditor/AllTools (0.2.4):
+    - CLImageEditor/Core
+    - CLImageEditor/EmoticonTool
+    - CLImageEditor/ResizeTool
+    - CLImageEditor/SplashTool
+    - CLImageEditor/StickerTool
+    - CLImageEditor/TextTool
   - CLImageEditor/Core (0.2.4)
+  - CLImageEditor/EmoticonTool (0.2.4):
+    - CLImageEditor/Core
+  - CLImageEditor/ResizeTool (0.2.4):
+    - CLImageEditor/Core
+  - CLImageEditor/SplashTool (0.2.4):
+    - CLImageEditor/Core
+  - CLImageEditor/StickerTool (0.2.4):
+    - CLImageEditor/Core
+  - CLImageEditor/TextTool (0.2.4):
+    - CLImageEditor/Core
   - Firebase/Analytics (6.26.0):
     - Firebase/Core
   - Firebase/Auth (6.26.0):
@@ -360,6 +377,11 @@ PODS:
 
 DEPENDENCIES:
   - CLImageEditor
+  - CLImageEditor/AllTools
+  - CLImageEditor/ResizeTool
+  - CLImageEditor/SplashTool
+  - CLImageEditor/StickerTool
+  - CLImageEditor/TextTool
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Core
@@ -428,6 +450,6 @@ SPEC CHECKSUMS:
   SDWebImage: e3eae2eda88578db0685a0c88597fdadd9433f05
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 4c755e8b677c339cd67219f87dcb652e87d65bdc
+PODFILE CHECKSUM: 24a56b3e73a9b41b89fd7c8f15ffd640dec208c4
 
 COCOAPODS: 1.9.3

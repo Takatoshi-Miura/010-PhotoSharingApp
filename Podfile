@@ -16,5 +16,11 @@ pod 'Firebase/Storage'
 pod 'SVProgressHUD'
 pod 'FirebaseUI/Storage'
 pod 'CLImageEditor'
+pod 'CLImageEditor/AllTools'
+
+pod 'CLImageEditor/ResizeTool'
+pod 'CLImageEditor/StickerTool'
+pod 'CLImageEditor/TextTool'
+pod 'CLImageEditor/SplashTool'
 
 end

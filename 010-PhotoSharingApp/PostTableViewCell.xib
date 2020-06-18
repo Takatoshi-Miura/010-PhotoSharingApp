@@ -34,9 +34,6 @@
                         <state key="normal" title="返信　">
                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="16"/>
                         </state>
-                        <connections>
-                            <action selector="replyCommentButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="FfY-Pz-zOt"/>
-                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="投稿者のコメント" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yvc-nb-ehV">
                         <rect key="frame" x="20" y="337" width="376" height="21"/>
@@ -60,6 +57,7 @@
                 <outlet property="postImage" destination="J6s-8g-ELd" id="T03-kQ-zr1"/>
                 <outlet property="postTime" destination="yIt-BU-1i9" id="bR5-lY-fKb"/>
                 <outlet property="replyComment" destination="vM6-aK-riV" id="HZN-iB-AsZ"/>
+                <outlet property="replyCommentButton" destination="RGf-rl-Ut4" id="4VV-5N-piC"/>
             </connections>
             <point key="canvasLocation" x="272.46376811594206" y="109.82142857142857"/>
         </tableViewCell>

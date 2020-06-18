@@ -32,6 +32,7 @@ class PostData {
     var accountName:String = ""    // 投稿者のアカウント名
     var postComment:String = ""    // 投稿コメント
     var postTime:String = ""       // 投稿日時
+    var replyComment:String = ""   // 返信コメント
     
     
     // データベースの投稿データを格納する
@@ -62,11 +63,12 @@ class PostData {
     }
     
     // データベースの投稿データ取得用イニシャライザ
-    init(_ postID:Int,_ accountName:String,_ postComment:String,_ postTime:String) {
-        self.postID      = postID
-        self.accountName = accountName
-        self.postComment = postComment
-        self.postTime    = postTime
+    init(_ postID:Int,_ accountName:String,_ postComment:String,_ postTime:String,_ replyComment:String) {
+        self.postID       = postID
+        self.accountName  = accountName
+        self.postComment  = postComment
+        self.postTime     = postTime
+        self.replyComment = replyComment
     }
     
     
@@ -83,7 +85,6 @@ class PostData {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-                    
                     // 取得データ(画像以外)をコレクションに格納
                     // 画像はPostTableViewCellにて取得するため、ここでは取得しない。
                     let postDataCollection = document.data()
@@ -93,7 +94,8 @@ class PostData {
                     let databasePostData = PostData(postDataCollection["PostID"] as! Int,
                                                     postDataCollection["AccountName"] as! String,
                                                     postDataCollection["PostComment"] as! String,
-                                                    postDataCollection["PostTime"] as! String)
+                                                    postDataCollection["PostTime"] as! String,
+                                                    postDataCollection["ReplyComment"] as! String)
                     
                     // 投稿データを格納 ＆ TODO:PostIDの降順にソート
                     self.postDataArray.append(databasePostData)
@@ -104,6 +106,25 @@ class PostData {
                         PostData.postCount = databasePostData.postID
                     }
                 }
+            }
+        }
+    }
+    
+    
+    // 返信コメントを追加するメソッド
+    func addReplyComment(_ postID:Int,_ replyComment:String) {
+        // 指定したpostIDのPostDataにアクセス
+        let db = Firestore.firestore()
+        let postData = db.collection("PostData").document("\(postID)")
+
+        // "ReplyComment"を更新
+        postData.updateData([
+            "ReplyComment": replyComment
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
             }
         }
     }
@@ -123,17 +144,17 @@ class PostData {
     func uploadFirestore() {
         // Cloud Firestoreに画像データ以外を保存(画像データは非対応のため)
         let db = Firestore.firestore()
-        var ref: DocumentReference? = nil
-        ref = db.collection("PostData").addDocument(data: [
-            "PostID"     : self.postID,
-            "AccountName": self.accountName,
-            "PostComment": self.postComment,
-            "PostTime"   : self.postTime
+        db.collection("PostData").document("\(self.postID)").setData([
+            "PostID"      : self.postID,
+            "AccountName" : self.accountName,
+            "PostComment" : self.postComment,
+            "PostTime"    : self.postTime,
+            "ReplyComment": self.replyComment
         ]) { err in
             if let err = err {
-                print("Error adding document: \(err)")
+                print("Error writing document: \(err)")
             } else {
-                print("Document added with ID: \(ref!.documentID)")
+                print("Document successfully written!")
             }
         }
     }
