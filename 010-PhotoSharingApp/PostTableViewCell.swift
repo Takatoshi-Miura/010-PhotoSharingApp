@@ -28,21 +28,19 @@ class PostTableViewCell: UITableViewCell {
     
     
     // セルに投稿内容を表示するメソッド
-    func printPostData(_ setAccountName:String,_ setComment:String,_ setTime:String,_ setID:Int,_ setReplyComment:String) {
+    func printPostData(_ postData:PostData) {
         // 画像を取得し、セルに格納する
         let storage = Storage.storage().reference(forURL: "gs://photosharingapp-729c8.appspot.com")
-        let imageRef = storage.child("\(setID)")
+        let imageRef = storage.child("\(postData.postID)")
         postImage.sd_setImage(with: imageRef)
         
         // 投稿IDをセット
-        self.postID = setID
+        self.postID = postData.postID
         
         // コメント,投稿日時を表示
-        postComment.text  = "\(setAccountName):\(setComment)"
-        postTime.text     = setTime
-        replyComment.text = setReplyComment
+        postComment.text  = "\(postData.accountName):\(postData.postComment)"
+        postTime.text     = postData.postTime
+        replyComment.text = postData.replyComment
     }
-    
-    
     
 }

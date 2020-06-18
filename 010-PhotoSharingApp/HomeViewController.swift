@@ -100,11 +100,7 @@ class HomeViewController: UIViewController , UITableViewDelegate, UITableViewDat
         cell.replyCommentButton.addTarget(self, action: #selector(self.pushButton(_:)), for: .touchUpInside)
         
         // セルに投稿データをセットする
-        cell.printPostData(postDataArray[indexPath.row].accountName,
-                           postDataArray[indexPath.row].postComment,
-                           postDataArray[indexPath.row].postTime,
-                           postDataArray[indexPath.row].postID,
-                           postDataArray[indexPath.row].replyComment)
+        cell.printPostData(postDataArray[indexPath.row])
         
         return cell
     }
