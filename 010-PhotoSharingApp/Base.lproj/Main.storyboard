@@ -154,8 +154,19 @@
                                     <segue destination="Z9A-ZH-Qtz" kind="unwind" unwindAction="goToHomeWith_segue:" id="pXy-Ea-9xJ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qI5-EX-4VK">
+                                <rect key="frame" x="49" y="450" width="315" height="50"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                <color key="backgroundColor" red="0.95857137439999995" green="0.67352682350000004" blue="0.47054415939999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="フィルター">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="filterButton:" destination="d72-Be-brn" eventType="touchUpInside" id="wp1-KO-gZT"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="052-Kq-YtJ">
-                                <rect key="frame" x="51" y="450" width="315" height="50"/>
+                                <rect key="frame" x="49" y="508" width="315" height="50"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <color key="backgroundColor" red="0.95857137439999995" green="0.67352682350000004" blue="0.47054415939999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" title="キャンセル">

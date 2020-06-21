@@ -22,9 +22,9 @@
 
 import UIKit
 import SVProgressHUD
-import CLImageEditor
 
-class ImageSelectViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLImageEditorDelegate {
+
+class ImageSelectViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,54 +78,10 @@ class ImageSelectViewController: UIViewController, UIImagePickerControllerDelega
         // 画像を投稿内容編集画面に渡す
         selectImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         
-        // CLImageEditorに画像を渡して、加工画面を起動する
-//        let editor = CLImageEditor(image: selectImage)!
-//        editor.delegate = self
-//        picker.pushViewController(editor, animated: true)
-        
         // 画面遷移
         self.performSegue(withIdentifier: "goPostViewController", sender: nil)
     }
-    
-    
-    // キャンセルした時に呼ばれるメソッド
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        // 今開いている画面を閉じる
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    
-    // CLImageEditorでキャンセルされた時にこのメソッドで前の画面に戻る
-    func imageEditorDidCancel(_ editor: CLImageEditor!) {
-        editor.dismiss(animated: true, completion: nil)
-    }
-    
-    
-    // CLImageEditorで加工が終わった時に呼ばれるメソッド
-    func imageEditor(_ editor: CLImageEditor!, didFinishEditingWith image: UIImage!) {
-        // PostviewControllerのNavigationControllerのidentifierに "Post"を設定する
-        let navigationController = self.storyboard?.instantiateViewController(withIdentifier: "goPostViewController") as! UINavigationController
-        let viewControllers = navigationController.viewControllers;
-        let postViewController = viewControllers[0] as! PostViewController;
-        // 画像を受け取る
-        postViewController.selectedImage = image
-        editor.present(navigationController, animated: true, completion: nil)
-    }
-    
-    
-    //
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        let pickerController = navigationController as! UIImagePickerController
-        if pickerController.sourceType == .camera {
-            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidPush))
-        }
-    }
 
-    
-    //
-    @objc func cancelButtonDidPush() {
-        dismiss(animated: true, completion: nil)
-    }
     
     // 画面遷移時に画像を渡す
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -134,6 +90,7 @@ class ImageSelectViewController: UIViewController, UIImagePickerControllerDelega
             nextViewController.selectedImage = selectImage
         }
     }
+    
     
     // 画像選択画面に戻ってくるときに呼び出される処理
     @IBAction func goToImageSelect(_segue:UIStoryboardSegue){

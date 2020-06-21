@@ -21,6 +21,7 @@
 //
 
 import UIKit
+import CoreImage
 
 class PostViewController: UIViewController {
 
@@ -44,10 +45,61 @@ class PostViewController: UIViewController {
         let postData = PostData(postComment)
         
         // Firebaseに投稿データを保存する
-        postData.savePostData(selectedImage!)
+        postData.savePostData(postImage.image!)
         
         // ホーム画面に遷移
     }
+    
+    
+    // 「フィルター」ボタンの処理
+    @IBAction func filterButton(_ sender: Any) {
+        // エフェクト前画像をアンラップし、エフェクト用画像として取り出す
+        if let image = selectedImage {
+            // フィルター名を指定
+            let filterName = filterArray[filterSelectNumber]
+            
+            // フィルターを全種類適用したら最初のフィルターに戻す
+            filterSelectNumber += 1
+            if filterSelectNumber == filterArray.count {
+                filterSelectNumber = 0
+            }
+            
+            // 元々の画像の回転角度を取得
+            let rotate = image.imageOrientation
+            
+            // UIImage形式の画像をCIImage形式に変換
+            let inputImage = CIImage(image: image)
+            guard let effectFilter = CIFilter(name: filterName) else {
+                return
+            }
+            
+            // エフェクトのパラメータを初期化
+            effectFilter.setDefaults()
+            
+            // エフェクトする元画像を設定
+            effectFilter.setValue(inputImage, forKey: kCIInputImageKey)
+            guard let outputImage = effectFilter.outputImage else {
+                return
+            }
+            
+            // エフェクト後のCIImage形式の画像を取り出す
+            let ciContext = CIContext(options: nil)
+            guard let cgImage = ciContext.createCGImage(outputImage, from: outputImage.extent) else {
+                return
+            }
+            
+            // エフェクト後の画像をCIContext上に描画し、結果をCGImageとして結果を取得
+            postImage.image = UIImage(cgImage: cgImage, scale: 1.0, orientation: rotate)
+        }
+    }
+    
+    // フィルター名を格納する配列
+    let filterArray = ["CIPhotoEffectMono"   ,"CIPhotoEffectChrome"  ,"CIPhotoEffectFade",
+                       "CIPhotoEffectInstant","CIPhotoEffectNoir"    ,"CIPhotoEffectProcess",
+                       "CIPhotoEffectTonal"  ,"CIPhotoEffectTransfer","CISepiaTone"]
+    
+    // フィルター配列の添字
+    var filterSelectNumber:Int = 0
     
     
     // 「キャンセル」ボタンの処理

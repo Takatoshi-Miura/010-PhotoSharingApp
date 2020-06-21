@@ -97,7 +97,7 @@ class HomeViewController: UIViewController , UITableViewDelegate, UITableViewDat
         
         // 「返信」ボタンをタップしたときの処理を設定
         cell.replyCommentButton.tag = indexPath.row
-        cell.replyCommentButton.addTarget(self, action: #selector(self.pushButton(_:)), for: .touchUpInside)
+        cell.replyCommentButton.addTarget(self, action: #selector(self.pushReplyCommentButton(_:)), for: .touchUpInside)
         
         // セルに投稿データをセットする
         cell.printPostData(postDataArray[indexPath.row])
@@ -107,7 +107,7 @@ class HomeViewController: UIViewController , UITableViewDelegate, UITableViewDat
     
     
     // 返信ボタンをタップしたときの処理
-    @objc private func pushButton(_ sender:UIButton) {
+    @objc private func pushReplyCommentButton(_ sender:UIButton) {
         // 指定した投稿に返信コメントを追加
         addReplyComment(postDataArray[sender.tag].postID)
     }

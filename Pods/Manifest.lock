@@ -377,7 +377,7 @@ PODS:
 
 DEPENDENCIES:
   - CLImageEditor
-  - CLImageEditor/AllTools
+  - CLImageEditor/AllTools (= 0.2.4)
   - CLImageEditor/ResizeTool
   - CLImageEditor/SplashTool
   - CLImageEditor/StickerTool
@@ -450,6 +450,6 @@ SPEC CHECKSUMS:
   SDWebImage: e3eae2eda88578db0685a0c88597fdadd9433f05
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 24a56b3e73a9b41b89fd7c8f15ffd640dec208c4
+PODFILE CHECKSUM: 95678b9ee3ab20f6fe12b9eac3987aabe4887705
 
 COCOAPODS: 1.9.3
